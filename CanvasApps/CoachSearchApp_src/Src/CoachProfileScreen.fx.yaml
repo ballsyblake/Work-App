@@ -1,0 +1,590 @@
+CoachProfileScreen As screen:
+    Fill: =gblColBackground
+    OnVisible: =ClearCollect(
+                    colCoachQuals,
+                    Filter(
+                        qcf_coachqualifications,
+                        'Coach (qcf_Coach)'.qcf_coachid = gblSelectedCoach.qcf_coachid
+                    )
+                )
+
+    # ── HEADER BAR ───────────────────────────────────────────────────
+    rectProfileHeader As rectangle:
+        X: =0
+        Y: =0
+        Width: =Parent.Width
+        Height: =56
+        Fill: =gblColPrimary
+
+    btnBack As button:
+        X: =8
+        Y: =10
+        Width: =80
+        Height: =36
+        Text: ="← Back"
+        Fill: =Transparent
+        Color: =White
+        BorderThickness: =0
+        FontWeight: =FontWeight.Semibold
+        OnSelect: =Navigate(BrowseScreen, ScreenTransition.UnCover)
+
+    lblProfileScreenTitle As label:
+        X: =96
+        Y: =14
+        Width: =Parent.Width - 196
+        Height: =28
+        Text: ="Coach Profile"
+        Align: =Align.Center
+        Color: =White
+        Size: =16
+        FontWeight: =FontWeight.Bold
+
+    btnShareCoach As button:
+        X: =Parent.Width - 88
+        Y: =10
+        Width: =80
+        Height: =36
+        Text: ="⤴ Share"
+        Fill: =Transparent
+        Color: =White
+        BorderThickness: =0
+        FontWeight: =FontWeight.Semibold
+        OnSelect: =Launch(
+                       "mailto:?subject=Coach%20Profile%20-%20" &
+                       EncodeUrl(gblSelectedCoach.qcf_fullname) &
+                       "&body=I%20found%20this%20coach%20on%20Queensland%20Coach%20Finder%3A%20" &
+                       EncodeUrl(gblSelectedCoach.qcf_fullname)
+                   )
+
+    # ── SCROLL CONTAINER ─────────────────────────────────────────────
+    scrProfile As scrollableCanvas:
+        X: =0
+        Y: =56
+        Width: =Parent.Width
+        Height: =Parent.Height - 56
+
+        # ── HERO SECTION: headshot + key info ────────────────────────
+        rectHeroBg As rectangle:
+            X: =0
+            Y: =0
+            Width: =Parent.Width
+            Height: =200
+            Fill: =gblColSurface
+            BorderColor: =RGBA(220, 230, 245, 1)
+            BorderThickness: =1
+
+        # Circular headshot (120×120)
+        imgProfileHeadshot As image:
+            X: =24
+            Y: =24
+            Width: =120
+            Height: =120
+            Image: =gblSelectedCoach.qcf_headshot
+            ImagePosition: =ImagePosition.Fill
+            RadiusTopLeft: =60
+            RadiusTopRight: =60
+            RadiusBottomLeft: =60
+            RadiusBottomRight: =60
+            BorderColor: =gblColPrimary
+            BorderThickness: =3
+
+        # Availability badge overlaid on headshot
+        rectAvailBadgeLarge As rectangle:
+            Visible: =gblSelectedCoach.qcf_availableforhire
+            X: =120
+            Y: =24
+            Width: =32
+            Height: =32
+            Fill: =gblColSuccess
+            RadiusTopLeft: =16
+            RadiusTopRight: =16
+            RadiusBottomLeft: =16
+            RadiusBottomRight: =16
+
+        lblAvailBadgeLarge As label:
+            Visible: =gblSelectedCoach.qcf_availableforhire
+            X: =120
+            Y: =24
+            Width: =32
+            Height: =32
+            Text: ="✓"
+            Color: =White
+            Align: =Align.Center
+            FontWeight: =FontWeight.Bold
+            Size: =14
+
+        lblNotAvailBadge As label:
+            Visible: =!gblSelectedCoach.qcf_availableforhire
+            X: =24
+            Y: =136
+            Width: =120
+            Height: =20
+            Text: ="Not available"
+            Color: =White
+            Align: =Align.Center
+            Fill: =gblColDanger
+            Size: =10
+            RadiusTopLeft: =4
+            RadiusTopRight: =4
+            RadiusBottomLeft: =4
+            RadiusBottomRight: =4
+
+        lblProfileName As label:
+            X: =160
+            Y: =24
+            Width: =Parent.Width - 180
+            Height: =36
+            Text: =gblSelectedCoach.qcf_fullname
+            FontWeight: =FontWeight.Bold
+            Size: =20
+            Color: =gblColTextDark
+
+        lblProfileSport As label:
+            X: =160
+            Y: =62
+            Width: =Parent.Width - 180
+            Height: =24
+            Text: =gblSelectedCoach.'Primary Sport (qcf_sport)'.qcf_name
+            Size: =14
+            Color: =gblColPrimary
+            FontWeight: =FontWeight.Semibold
+
+        lblProfileClub As label:
+            X: =160
+            Y: =88
+            Width: =Parent.Width - 180
+            Height: =22
+            Text: =If(IsBlank(gblSelectedCoach.qcf_currentclub), "", "🏟 " & gblSelectedCoach.qcf_currentclub)
+            Size: =13
+            Color: =gblColTextMid
+
+        lblProfileLocation As label:
+            X: =160
+            Y: =112
+            Width: =Parent.Width - 180
+            Height: =22
+            Text: ="📍 " & gblSelectedCoach.qcf_suburb & " · " & gblSelectedCoach.qcf_region
+            Size: =13
+            Color: =gblColTextMid
+
+        lblProfileExp As label:
+            X: =160
+            Y: =136
+            Width: =Parent.Width - 180
+            Height: =20
+            Text: =If(
+                       gblSelectedCoach.qcf_yearsexperience > 0,
+                       "⏱ " & Text(gblSelectedCoach.qcf_yearsexperience) & " years experience",
+                       ""
+                   )
+            Size: =12
+            Color: =gblColTextLight
+
+        # ── CONTACT ROW ──────────────────────────────────────────────
+        rectContactBg As rectangle:
+            X: =0
+            Y: =168
+            Width: =Parent.Width
+            Height: =48
+            Fill: =RGBA(232, 240, 254, 1)
+
+        btnCallCoach As button:
+            Visible: =gblSelectedCoach.qcf_phone <> ""
+            X: =16
+            Y: =176
+            Width: =150
+            Height: =32
+            Text: ="📞 " & gblSelectedCoach.qcf_phone
+            Fill: =White
+            Color: =gblColPrimary
+            BorderColor: =gblColPrimary
+            BorderThickness: =1
+            RadiusTopLeft: =6
+            RadiusTopRight: =6
+            RadiusBottomLeft: =6
+            RadiusBottomRight: =6
+            Size: =12
+            OnSelect: =Launch("tel:" & gblSelectedCoach.qcf_phone)
+
+        btnEmailCoach As button:
+            Visible: =gblSelectedCoach.qcf_email <> ""
+            X: =180
+            Y: =176
+            Width: =200
+            Height: =32
+            Text: ="✉ " & gblSelectedCoach.qcf_email
+            Fill: =gblColPrimary
+            Color: =White
+            RadiusTopLeft: =6
+            RadiusTopRight: =6
+            RadiusBottomLeft: =6
+            RadiusBottomRight: =6
+            Size: =12
+            OnSelect: =Launch(
+                           "mailto:" & gblSelectedCoach.qcf_email &
+                           "?subject=Coaching%20Enquiry%20-%20Queensland%20Coach%20Finder"
+                       )
+
+        btnLinkedIn As button:
+            Visible: =gblSelectedCoach.qcf_linkedinurl <> ""
+            X: =Parent.Width - 130
+            Y: =176
+            Width: =110
+            Height: =32
+            Text: ="🔗 LinkedIn"
+            Fill: =RGBA(10, 102, 194, 1)
+            Color: =White
+            RadiusTopLeft: =6
+            RadiusTopRight: =6
+            RadiusBottomLeft: =6
+            RadiusBottomRight: =6
+            Size: =12
+            OnSelect: =Launch(gblSelectedCoach.qcf_linkedinurl)
+
+        # ── VIDEO REEL SECTION ────────────────────────────────────────
+        rectVideoSection As rectangle:
+            X: =0
+            Y: =224
+            Width: =Parent.Width
+            Height: =If(IsBlank(gblSelectedCoach.qcf_videourl), 0, Parent.Width * 9 / 16 + 60)
+            Fill: =RGBA(20, 30, 50, 1)
+
+        lblVideoHeading As label:
+            Visible: =!IsBlank(gblSelectedCoach.qcf_videourl)
+            X: =16
+            Y: =232
+            Width: =Parent.Width - 32
+            Height: =28
+            Text: ="Coaching Delivery Reel"
+            Color: =White
+            FontWeight: =FontWeight.Bold
+            Size: =15
+
+        # Native Power Apps Video control (plays direct MP4/WebM/OGG URLs)
+        vidDeliveryReel As video:
+            Visible: =!IsBlank(gblSelectedCoach.qcf_videourl) &&
+                       !("youtube.com" in gblSelectedCoach.qcf_videourl) &&
+                       !("vimeo.com" in gblSelectedCoach.qcf_videourl)
+            X: =0
+            Y: =264
+            Width: =Parent.Width
+            Height: =Parent.Width * 9 / 16
+            Media: =gblSelectedCoach.qcf_videourl
+            AutoStart: =false
+            Loop: =false
+
+        # HTML Text fallback for YouTube/Vimeo embeds
+        htmVideoEmbed As htmltext:
+            Visible: =!IsBlank(gblSelectedCoach.qcf_videourl) &&
+                       ("youtube.com" in gblSelectedCoach.qcf_videourl ||
+                        "vimeo.com" in gblSelectedCoach.qcf_videourl)
+            X: =0
+            Y: =264
+            Width: =Parent.Width
+            Height: =Parent.Width * 9 / 16
+            # Power Apps HTMLText control renders limited HTML — iframes are NOT supported.
+            # Store videos in SharePoint or Azure Blob Storage for direct playback.
+            # See README for video hosting guidance.
+            HtmlText: =If(
+                           "youtube.com" in gblSelectedCoach.qcf_videourl,
+                           "<div style='padding:16px;color:#ccc;background:#1a2030;text-align:center;font-family:Segoe UI'>" &
+                           "<p style='font-size:18px'>▶</p>" &
+                           "<p>Tap to open YouTube video</p></div>",
+                           "<div style='padding:16px;color:#ccc;background:#1a2030;text-align:center;font-family:Segoe UI'>" &
+                           "<p>Video hosted externally</p></div>"
+                       )
+
+        btnOpenExternalVideo As button:
+            Visible: =!IsBlank(gblSelectedCoach.qcf_videourl) &&
+                       ("youtube.com" in gblSelectedCoach.qcf_videourl ||
+                        "vimeo.com" in gblSelectedCoach.qcf_videourl)
+            X: =(Parent.Width - 200) / 2
+            Y: =264 + (Parent.Width * 9 / 16) - 56
+            Width: =200
+            Height: =44
+            Text: ="▶  Open Video"
+            Fill: =gblColAccent
+            Color: =RGBA(32, 32, 32, 1)
+            FontWeight: =FontWeight.Bold
+            RadiusTopLeft: =8
+            RadiusTopRight: =8
+            RadiusBottomLeft: =8
+            RadiusBottomRight: =8
+            OnSelect: =Launch(gblSelectedCoach.qcf_videourl)
+
+        lblNoVideo As label:
+            Visible: =IsBlank(gblSelectedCoach.qcf_videourl)
+            X: =0
+            Y: =224
+            Width: =Parent.Width
+            Height: =0
+
+        # ── BIOGRAPHY SECTION ─────────────────────────────────────────
+        rectBioSection As rectangle:
+            X: =0
+            Y: =If(IsBlank(gblSelectedCoach.qcf_videourl),
+                    224,
+                    224 + Parent.Width * 9 / 16 + 60)
+            Width: =Parent.Width
+            Height: =If(IsBlank(gblSelectedCoach.qcf_bio), 0, LenB(gblSelectedCoach.qcf_bio) / 40 * 20 + 80)
+            Fill: =gblColSurface
+
+        lblBioHeading As label:
+            Visible: =!IsBlank(gblSelectedCoach.qcf_bio)
+            X: =16
+            Y: =If(IsBlank(gblSelectedCoach.qcf_videourl),
+                    232,
+                    224 + Parent.Width * 9 / 16 + 68)
+            Width: =Parent.Width - 32
+            Height: =28
+            Text: ="About " & gblSelectedCoach.qcf_fullname
+            FontWeight: =FontWeight.Bold
+            Size: =16
+            Color: =gblColPrimary
+
+        lblBio As label:
+            Visible: =!IsBlank(gblSelectedCoach.qcf_bio)
+            X: =16
+            Y: =If(IsBlank(gblSelectedCoach.qcf_videourl),
+                    268,
+                    224 + Parent.Width * 9 / 16 + 104)
+            Width: =Parent.Width - 32
+            Height: =LenB(gblSelectedCoach.qcf_bio) / 40 * 20 + 20
+            Text: =gblSelectedCoach.qcf_bio
+            Size: =13
+            Color: =gblColTextDark
+            Overflow: =Overflow.Scroll
+
+        # ── QUALIFICATIONS SECTION ────────────────────────────────────
+        rectQualsSection As rectangle:
+            X: =0
+            Y: =If(IsBlank(gblSelectedCoach.qcf_bio),
+                    If(IsBlank(gblSelectedCoach.qcf_videourl), 224, 224 + Parent.Width * 9 / 16 + 60),
+                    If(IsBlank(gblSelectedCoach.qcf_videourl),
+                        224 + LenB(gblSelectedCoach.qcf_bio) / 40 * 20 + 80,
+                        224 + Parent.Width * 9 / 16 + 60 + LenB(gblSelectedCoach.qcf_bio) / 40 * 20 + 80)
+                   )
+            Width: =Parent.Width
+            Height: =1      # Spacer — gallery handles its own height
+            Fill: =Transparent
+
+        lblQualsHeading As label:
+            X: =16
+            Y: =If(IsBlank(gblSelectedCoach.qcf_bio),
+                    If(IsBlank(gblSelectedCoach.qcf_videourl), 232, 224 + Parent.Width * 9 / 16 + 68),
+                    If(IsBlank(gblSelectedCoach.qcf_videourl),
+                        232 + LenB(gblSelectedCoach.qcf_bio) / 40 * 20 + 80,
+                        224 + Parent.Width * 9 / 16 + 68 + LenB(gblSelectedCoach.qcf_bio) / 40 * 20 + 80)
+                   )
+            Width: =Parent.Width - 32
+            Height: =28
+            Text: ="Qualifications & Accreditations"
+            FontWeight: =FontWeight.Bold
+            Size: =16
+            Color: =gblColPrimary
+
+        lblQualsSubtitle As label:
+            X: =16
+            Y: =lblQualsHeading.Y + 30
+            Width: =Parent.Width - 32
+            Height: =20
+            Text: =Text(CountRows(colCoachQuals)) & " course(s) completed in Queensland"
+            Size: =12
+            Color: =gblColTextMid
+
+        galQualifications As gallery:
+            X: =0
+            Y: =lblQualsSubtitle.Y + 28
+            Width: =Parent.Width
+            Height: =CountRows(colCoachQuals) * 100 + 16
+            Items: =colCoachQuals
+            Layout: =Layout.Vertical
+            TemplateSize: =96
+            TemplatePadding: =0
+
+            # Row background (alternate row shading)
+            rectQualRow As rectangle:
+                X: =0
+                Y: =0
+                Width: =Parent.TemplateWidth
+                Height: =Parent.TemplateHeight - 1
+                Fill: =If(Mod(ThisItem.qcf_coachqualificationid, 2) = 0,
+                           White,
+                           RGBA(247, 250, 255, 1))
+                BorderColor: =RGBA(220, 230, 245, 1)
+                BorderThickness: =0
+
+            rectQualBottomBorder As rectangle:
+                X: =16
+                Y: =Parent.TemplateHeight - 1
+                Width: =Parent.TemplateWidth - 32
+                Height: =1
+                Fill: =RGBA(220, 230, 245, 1)
+
+            # Accreditation level colour bar on left edge
+            rectLevelBar As rectangle:
+                X: =0
+                Y: =0
+                Width: =6
+                Height: =Parent.TemplateHeight
+                Fill: =Switch(
+                           ThisItem.'Course (qcf_course)'.qcf_accreditationlevel,
+                           100000000, RGBA(120, 200, 120, 1),    # Foundation – green
+                           100000001, RGBA( 90, 160, 230, 1),    # Level 1 – blue
+                           100000002, RGBA(230, 160,  40, 1),    # Level 2 – amber
+                           100000003, RGBA(200,  60,  60, 1),    # Level 3 – red
+                           100000004, RGBA(120,  40, 180, 1),    # Elite – purple
+                           RGBA(180, 180, 180, 1)
+                       )
+
+            lblQualCourseName As label:
+                X: =16
+                Y: =10
+                Width: =Parent.TemplateWidth - 180
+                Height: =24
+                Text: =ThisItem.'Course (qcf_course)'.qcf_name
+                FontWeight: =FontWeight.Semibold
+                Size: =13
+                Color: =gblColTextDark
+
+            lblQualLevel As label:
+                X: =Parent.TemplateWidth - 170
+                Y: =10
+                Width: =155
+                Height: =22
+                Text: =Switch(
+                           ThisItem.'Course (qcf_course)'.qcf_accreditationlevel,
+                           100000000, "Foundation",
+                           100000001, "Level 1",
+                           100000002, "Level 2",
+                           100000003, "Level 3",
+                           100000004, "Elite",
+                           "—"
+                       )
+                Align: =Align.Right
+                Size: =11
+                FontWeight: =FontWeight.Bold
+                Color: =Switch(
+                           ThisItem.'Course (qcf_course)'.qcf_accreditationlevel,
+                           100000000, RGBA( 46,125, 50, 1),
+                           100000001, RGBA(  0, 80,180, 1),
+                           100000002, RGBA(180,100,  0, 1),
+                           100000003, RGBA(180, 30, 30, 1),
+                           100000004, RGBA( 80, 20,140, 1),
+                           gblColTextMid
+                       )
+
+            lblQualProvider As label:
+                X: =16
+                Y: =36
+                Width: =Parent.TemplateWidth - 32
+                Height: =20
+                Text: =ThisItem.'Course (qcf_course)'.qcf_provider
+                Size: =12
+                Color: =gblColTextMid
+
+            lblQualCompleted As label:
+                X: =16
+                Y: =58
+                Width: =200
+                Height: =20
+                Text: ="Completed: " & Text(ThisItem.qcf_completiondate, "dd MMM yyyy")
+                Size: =12
+                Color: =gblColTextMid
+
+            lblQualExpiry As label:
+                X: =220
+                Y: =58
+                Width: =Parent.TemplateWidth - 240
+                Height: =20
+                Text: =If(
+                           IsBlank(ThisItem.qcf_expirydate),
+                           "No expiry",
+                           "Expires: " & Text(ThisItem.qcf_expirydate, "dd MMM yyyy")
+                       )
+                Size: =12
+                Color: =If(
+                           IsBlank(ThisItem.qcf_expirydate),
+                           gblColTextLight,
+                           If(
+                               ThisItem.qcf_expirydate < Today(),
+                               gblColDanger,       # Expired
+                               If(
+                                   ThisItem.qcf_expirydate < DateAdd(Today(), 90, TimeUnit.Days),
+                                   gblColWarning,  # Expiring soon
+                                   gblColSuccess   # Valid
+                               )
+                           )
+                       )
+
+            lblQualCertNo As label:
+                Visible: =ThisItem.qcf_certificatenumber <> ""
+                X: =16
+                Y: =76
+                Width: =Parent.TemplateWidth - 32
+                Height: =16
+                Text: ="Cert #: " & ThisItem.qcf_certificatenumber
+                Size: =10
+                Color: =gblColTextLight
+
+        # ── WWCC SECTION ─────────────────────────────────────────────
+        rectWwccSection As rectangle:
+            X: =0
+            Y: =galQualifications.Y + galQualifications.Height + 8
+            Width: =Parent.Width
+            Height: =If(IsBlank(gblSelectedCoach.qcf_wwccnumber), 0, 72)
+            Fill: =RGBA(232, 250, 240, 1)
+            BorderColor: =RGBA(180, 220, 200, 1)
+            BorderThickness: =1
+
+        lblWwccHeading As label:
+            Visible: =!IsBlank(gblSelectedCoach.qcf_wwccnumber)
+            X: =16
+            Y: =galQualifications.Y + galQualifications.Height + 20
+            Width: =Parent.Width - 32
+            Height: =22
+            Text: ="✅ Working With Children Check"
+            FontWeight: =FontWeight.Semibold
+            Size: =13
+            Color: =gblColSuccess
+
+        lblWwccDetail As label:
+            Visible: =!IsBlank(gblSelectedCoach.qcf_wwccnumber)
+            X: =16
+            Y: =galQualifications.Y + galQualifications.Height + 44
+            Width: =Parent.Width - 32
+            Height: =20
+            Text: ="Card #: " & gblSelectedCoach.qcf_wwccnumber &
+                   "  |  Expiry: " & Text(gblSelectedCoach.qcf_wwccexpiry, "dd MMM yyyy")
+            Size: =12
+            Color: =gblColSuccess
+
+        # ── BOTTOM CTA BAR ────────────────────────────────────────────
+        rectCta As rectangle:
+            X: =0
+            Y: =Parent.Height - 72
+            Width: =Parent.Width
+            Height: =72
+            Fill: =White
+            BorderColor: =RGBA(200, 210, 230, 1)
+            BorderThickness: =1
+
+        btnContactCta As button:
+            X: =16
+            Y: =Parent.Height - 60
+            Width: =Parent.Width - 32
+            Height: =48
+            Text: ="✉  Contact This Coach"
+            Fill: =gblColPrimary
+            Color: =White
+            FontWeight: =FontWeight.Bold
+            Size: =15
+            RadiusTopLeft: =10
+            RadiusTopRight: =10
+            RadiusBottomLeft: =10
+            RadiusBottomRight: =10
+            OnSelect: =Launch(
+                           "mailto:" & gblSelectedCoach.qcf_email &
+                           "?subject=Coaching%20Enquiry%20-%20Queensland%20Coach%20Finder&body=Hi%20" &
+                           EncodeUrl(gblSelectedCoach.qcf_fullname) & "%2C%0A%0AI%20found%20your%20profile%20on%20Queensland%20Coach%20Finder%20and%20would%20like%20to%20discuss%20a%20coaching%20opportunity."
+                       )

@@ -1,0 +1,23 @@
+{
+  "tableName": "qcf_coach",
+  "displayName": "Coach",
+  "columns": [
+    { "logicalName": "qcf_coachid",           "displayName": "Coach ID",                    "type": "UniqueIdentifier", "isPrimaryKey": true },
+    { "logicalName": "qcf_fullname",           "displayName": "Full Name",                   "type": "String",  "maxLength": 300, "required": true },
+    { "logicalName": "qcf_email",              "displayName": "Email",                       "type": "String",  "format": "Email" },
+    { "logicalName": "qcf_phone",              "displayName": "Phone",                       "type": "String",  "format": "Phone" },
+    { "logicalName": "qcf_suburb",             "displayName": "Suburb",                      "type": "String",  "maxLength": 200 },
+    { "logicalName": "qcf_region",             "displayName": "Queensland Region",           "type": "Picklist" },
+    { "logicalName": "qcf_currentclub",        "displayName": "Current Club / Organisation", "type": "String",  "maxLength": 300 },
+    { "logicalName": "qcf_primarysportid",     "displayName": "Primary Sport",               "type": "Lookup",  "referencedTable": "qcf_sport" },
+    { "logicalName": "qcf_bio",                "displayName": "Biography",                   "type": "Memo",    "maxLength": 5000 },
+    { "logicalName": "qcf_headshot",           "displayName": "Headshot Photo",              "type": "Image" },
+    { "logicalName": "qcf_videourl",           "displayName": "Video Reel URL",              "type": "String",  "format": "Url", "maxLength": 2000 },
+    { "logicalName": "qcf_videosharepointurl", "displayName": "Video File (SharePoint)",     "type": "String",  "format": "Url", "maxLength": 2000 },
+    { "logicalName": "qcf_yearsexperience",    "displayName": "Years of Experience",         "type": "Integer" },
+    { "logicalName": "qcf_availableforhire",   "displayName": "Available for Hire",          "type": "Boolean", "default": true },
+    { "logicalName": "qcf_wwccnumber",         "displayName": "WWCC Number",                 "type": "String",  "maxLength": 100 },
+    { "logicalName": "qcf_wwccexpiry",         "displayName": "WWCC Expiry Date",            "type": "DateTime","format": "DateOnly" },
+    { "logicalName": "qcf_linkedinurl",        "displayName": "LinkedIn Profile URL",        "type": "String",  "format": "Url" }
+  ]
+}

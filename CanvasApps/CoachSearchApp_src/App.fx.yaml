@@ -1,0 +1,42 @@
+App As appinfo:
+    # ──────────────────────────────────────────────────────────────────
+    # Queensland Coach Finder – Canvas App
+    # Pack with:  pac canvas pack --sources . --msapp CoachSearchApp.msapp
+    # Unpack with: pac canvas unpack --msapp CoachSearchApp.msapp --sources .
+    # ──────────────────────────────────────────────────────────────────
+
+    BackEnabled: =false
+
+    OnStart: |-
+        // Brand colours
+        =Set(gblColPrimary,    RGBA(0,  99, 177, 1));
+        Set(gblColPrimaryDark, RGBA(0,  63, 135, 1));
+        Set(gblColAccent,      RGBA(255,152,  0, 1));
+        Set(gblColBackground,  RGBA(245,249, 253, 1));
+        Set(gblColSurface,     RGBA(255,255, 255, 1));
+        Set(gblColTextDark,    RGBA( 32, 32,  32, 1));
+        Set(gblColTextMid,     RGBA( 90, 90,  90, 1));
+        Set(gblColTextLight,   RGBA(160,160, 160, 1));
+        Set(gblColSuccess,     RGBA( 46,125,  50, 1));
+        Set(gblColWarning,     RGBA(230,162,   0, 1));
+        Set(gblColDanger,      RGBA(198, 40,  40, 1));
+
+        // App state
+        Set(gblCurrentUser,   User());
+        Set(gblSearchText,    "");
+        Set(gblSelectedCoach, Blank());
+        Set(gblFilterSport,   Blank());
+        Set(gblFilterCourse,  Blank());
+        Set(gblFilterRegion,  Blank());
+        Set(gblFilterAvailable, false);
+        Set(gblShowFilters,   false);
+
+        // Pre-load lookup tables for filter dropdowns
+        ClearCollect(colSports,  SortByColumns(Sports,  "qcf_name", SortOrder.Ascending));
+        ClearCollect(colCourses, SortByColumns(Courses, "qcf_name", SortOrder.Ascending))
+
+    # Screens (in navigation order)
+    # HomeScreen           – Search bar + hero + quick-sport tiles
+    # SearchResultsScreen  – Filtered gallery of coach cards
+    # CoachProfileScreen   – Full coach profile (photo + video + quals)
+    # FiltersScreen        – Detailed filter panel (slide-over)

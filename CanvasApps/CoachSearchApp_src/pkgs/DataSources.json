@@ -1,0 +1,42 @@
+[
+  {
+    "Name": "qcf_coaches",
+    "Type": "DataSource",
+    "Kind": "Connected",
+    "ConnectorId": "/providers/Microsoft.PowerApps/apis/shared_commondataservice",
+    "DatasetName": "default",
+    "TableName": "qcf_coaches",
+    "IsWritable": false,
+    "Description": "Coach profiles — primary table"
+  },
+  {
+    "Name": "qcf_courses",
+    "Type": "DataSource",
+    "Kind": "Connected",
+    "ConnectorId": "/providers/Microsoft.PowerApps/apis/shared_commondataservice",
+    "DatasetName": "default",
+    "TableName": "qcf_courses",
+    "IsWritable": false,
+    "Description": "Accreditation courses catalogue"
+  },
+  {
+    "Name": "qcf_sports",
+    "Type": "DataSource",
+    "Kind": "Connected",
+    "ConnectorId": "/providers/Microsoft.PowerApps/apis/shared_commondataservice",
+    "DatasetName": "default",
+    "TableName": "qcf_sports",
+    "IsWritable": false,
+    "Description": "Sports and disciplines lookup"
+  },
+  {
+    "Name": "qcf_coachqualifications",
+    "Type": "DataSource",
+    "Kind": "Connected",
+    "ConnectorId": "/providers/Microsoft.PowerApps/apis/shared_commondataservice",
+    "DatasetName": "default",
+    "TableName": "qcf_coachqualifications",
+    "IsWritable": false,
+    "Description": "Coach-to-course junction with completion dates"
+  }
+]

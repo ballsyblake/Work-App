@@ -1,0 +1,89 @@
+SplashScreen As screen:
+    Fill: =gblColPrimary
+
+    imgSplashBg As image:
+        X: =0
+        Y: =0
+        Width: =Parent.Width
+        Height: =Parent.Height
+        ImagePosition: =ImagePosition.Fill
+        # Replace with a QLD sports action background photo stored in solution media
+        Image: =SampleImage
+
+    rectOverlay As rectangle:
+        X: =0
+        Y: =0
+        Width: =Parent.Width
+        Height: =Parent.Height
+        Fill: =RGBA(0, 63, 135, 0.75)
+
+    imgLogo As image:
+        X: =(Parent.Width - 120) / 2
+        Y: =120
+        Width: =120
+        Height: =120
+        # Replace with official QLD Sport logo asset
+        Image: =SampleImage
+
+    lblSplashTitle As label:
+        Text: ="Queensland Coach Finder"
+        X: =0
+        Y: =260
+        Width: =Parent.Width
+        Height: =48
+        Align: =Align.Center
+        Color: =White
+        Size: =28
+        FontWeight: =FontWeight.Bold
+
+    lblTagline As label:
+        Text: ="Find accredited coaches across Queensland"
+        X: =0
+        Y: =316
+        Width: =Parent.Width
+        Height: =32
+        Align: =Align.Center
+        Color: =RGBA(200, 220, 255, 1)
+        Size: =14
+
+    lblSubTagline As label:
+        Text: ="Search by sport · qualification · region"
+        X: =0
+        Y: =350
+        Width: =Parent.Width
+        Height: =28
+        Align: =Align.Center
+        Color: =RGBA(180, 200, 240, 1)
+        Size: =12
+
+    btnGetStarted As button:
+        X: =(Parent.Width - 220) / 2
+        Y: =Parent.Height - 160
+        Width: =220
+        Height: =52
+        Text: ="Find a Coach"
+        Fill: =gblColAccent
+        Color: =RGBA(32, 32, 32, 1)
+        FontWeight: =FontWeight.Bold
+        RadiusTopLeft: =8
+        RadiusTopRight: =8
+        RadiusBottomLeft: =8
+        RadiusBottomRight: =8
+        OnSelect: =Navigate(BrowseScreen, ScreenTransition.Fade)
+
+    lblVersion As label:
+        Text: ="v1.0 · Queensland Coach Finder"
+        X: =0
+        Y: =Parent.Height - 40
+        Width: =Parent.Width
+        Height: =28
+        Align: =Align.Center
+        Color: =RGBA(150, 180, 220, 1)
+        Size: =10
+
+    # Auto-navigate to browse after 3 seconds
+    tmrAutoNav As timer:
+        Duration: =3000
+        AutoStart: =true
+        Repeat: =false
+        OnTimerEnd: =Navigate(BrowseScreen, ScreenTransition.Fade)

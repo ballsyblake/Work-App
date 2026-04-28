@@ -1,0 +1,495 @@
+BrowseScreen As screen:
+    Fill: =gblColBackground
+    OnVisible: =Set(gblShowFilters, false)
+
+    # ── HEADER BAR ───────────────────────────────────────────────────
+    rectHeader As rectangle:
+        X: =0
+        Y: =0
+        Width: =Parent.Width
+        Height: =80
+        Fill: =gblColPrimary
+
+    imgHeaderLogo As image:
+        X: =16
+        Y: =16
+        Width: =48
+        Height: =48
+        Image: =SampleImage
+
+    lblHeaderTitle As label:
+        Text: ="Queensland Coach Finder"
+        X: =72
+        Y: =22
+        Width: =350
+        Height: =36
+        Color: =White
+        Size: =18
+        FontWeight: =FontWeight.Bold
+        VerticalAlign: =VerticalAlign.Middle
+
+    # ── SEARCH BAR ───────────────────────────────────────────────────
+    rectSearchBg As rectangle:
+        X: =0
+        Y: =80
+        Width: =Parent.Width
+        Height: =64
+        Fill: =gblColSurface
+        BorderColor: =RGBA(220, 220, 220, 1)
+        BorderThickness: =1
+
+    icnSearch As icon:
+        Icon: =Icon.Search
+        X: =16
+        Y: =96
+        Width: =28
+        Height: =28
+        Color: =gblColTextMid
+
+    txtSearch As text:
+        X: =52
+        Y: =88
+        Width: =Parent.Width - 160
+        Height: =44
+        HintText: ="Search by name, sport or keyword…"
+        BorderThickness: =0
+        Size: =14
+        Color: =gblColTextDark
+        Fill: =Transparent
+        OnChange: =Set(gblSearchText, txtSearch.Text)
+
+    btnClearSearch As button:
+        Visible: =txtSearch.Text <> ""
+        X: =Parent.Width - 100
+        Y: =92
+        Width: =36
+        Height: =36
+        Text: ="✕"
+        Fill: =RGBA(220, 220, 220, 1)
+        Color: =gblColTextDark
+        RadiusTopLeft: =18
+        RadiusTopRight: =18
+        RadiusBottomLeft: =18
+        RadiusBottomRight: =18
+        OnSelect: =Reset(txtSearch); Set(gblSearchText, "")
+
+    btnToggleFilter As button:
+        X: =Parent.Width - 56
+        Y: =92
+        Width: =36
+        Height: =36
+        Text: ="⚙"
+        Fill: =If(gblShowFilters, gblColPrimary, RGBA(230, 240, 250, 1))
+        Color: =If(gblShowFilters, White, gblColPrimary)
+        RadiusTopLeft: =8
+        RadiusTopRight: =8
+        RadiusBottomLeft: =8
+        RadiusBottomRight: =8
+        OnSelect: =Set(gblShowFilters, !gblShowFilters)
+
+    # ── ACTIVE FILTER CHIPS (show which filters are applied) ─────────
+    rectFilterChips As rectangle:
+        Visible: =!IsBlank(gblFilterSport) || !IsBlank(gblFilterCourse) || !IsBlank(gblFilterRegion)
+        X: =0
+        Y: =144
+        Width: =Parent.Width
+        Height: =40
+        Fill: =RGBA(232, 240, 254, 1)
+
+    lblFilterSportChip As label:
+        Visible: =!IsBlank(gblFilterSport)
+        X: =8
+        Y: =150
+        Width: =180
+        Height: =28
+        Text: ="🏅 " & gblFilterSport.qcf_name & "  ✕"
+        Fill: =gblColPrimary
+        Color: =White
+        Size: =12
+        RadiusTopLeft: =14
+        RadiusTopRight: =14
+        RadiusBottomLeft: =14
+        RadiusBottomRight: =14
+        PaddingLeft: =10
+        OnSelect: =Set(gblFilterSport, Blank()); Reset(drpSport)
+
+    lblFilterCourseChip As label:
+        Visible: =!IsBlank(gblFilterCourse)
+        X: =200
+        Y: =150
+        Width: =200
+        Height: =28
+        Text: ="📋 " & gblFilterCourse.qcf_name & "  ✕"
+        Fill: =gblColPrimaryDark
+        Color: =White
+        Size: =12
+        RadiusTopLeft: =14
+        RadiusTopRight: =14
+        RadiusBottomLeft: =14
+        RadiusBottomRight: =14
+        PaddingLeft: =10
+        OnSelect: =Set(gblFilterCourse, Blank()); Reset(drpCourse)
+
+    lblFilterRegionChip As label:
+        Visible: =!IsBlank(gblFilterRegion)
+        X: =412
+        Y: =150
+        Width: =180
+        Height: =28
+        Text: ="📍 " & gblFilterRegion.Value & "  ✕"
+        Fill: =RGBA(0, 120, 60, 1)
+        Color: =White
+        Size: =12
+        RadiusTopLeft: =14
+        RadiusTopRight: =14
+        RadiusBottomLeft: =14
+        RadiusBottomRight: =14
+        PaddingLeft: =10
+        OnSelect: =Set(gblFilterRegion, Blank()); Reset(drpRegion)
+
+    # ── FILTER PANEL (slide-in overlay) ──────────────────────────────
+    rectFilterPanel As rectangle:
+        Visible: =gblShowFilters
+        X: =0
+        Y: =144
+        Width: =280
+        Height: =Parent.Height - 144
+        Fill: =White
+        BorderColor: =RGBA(200, 210, 230, 1)
+        BorderThickness: =1
+        ZIndex: =10
+
+    lblFilterHeading As label:
+        Visible: =gblShowFilters
+        Text: ="Filter Coaches"
+        X: =16
+        Y: =160
+        Width: =248
+        Height: =28
+        Size: =16
+        FontWeight: =FontWeight.Bold
+        Color: =gblColPrimary
+        ZIndex: =11
+
+    lblFilterSportLabel As label:
+        Visible: =gblShowFilters
+        Text: ="Sport / Discipline"
+        X: =16
+        Y: =200
+        Width: =248
+        Height: =22
+        Size: =12
+        FontWeight: =FontWeight.Semibold
+        Color: =gblColTextMid
+        ZIndex: =11
+
+    drpSport As dropdown:
+        Visible: =gblShowFilters
+        X: =16
+        Y: =224
+        Width: =248
+        Height: =40
+        Items: =colSports
+        # Display name column
+        DisplayFields: =["qcf_name"]
+        ZIndex: =11
+        OnChange: =Set(gblFilterSport, drpSport.Selected); Set(gblFilterCourse, Blank()); Reset(drpCourse)
+
+    lblFilterCourseLabel As label:
+        Visible: =gblShowFilters
+        Text: ="Accreditation Course"
+        X: =16
+        Y: =276
+        Width: =248
+        Height: =22
+        Size: =12
+        FontWeight: =FontWeight.Semibold
+        Color: =gblColTextMid
+        ZIndex: =11
+
+    drpCourse As dropdown:
+        Visible: =gblShowFilters
+        X: =16
+        Y: =300
+        Width: =248
+        Height: =40
+        # Cascade: if a sport is selected, only show courses for that sport
+        Items: =If(
+                    IsBlank(gblFilterSport),
+                    colCourses,
+                    Filter(colCourses, qcf_sport = gblFilterSport.qcf_sportid)
+                )
+        DisplayFields: =["qcf_name"]
+        ZIndex: =11
+        OnChange: =Set(gblFilterCourse, drpCourse.Selected)
+
+    lblFilterRegionLabel As label:
+        Visible: =gblShowFilters
+        Text: ="Queensland Region"
+        X: =16
+        Y: =352
+        Width: =248
+        Height: =22
+        Size: =12
+        FontWeight: =FontWeight.Semibold
+        Color: =gblColTextMid
+        ZIndex: =11
+
+    drpRegion As dropdown:
+        Visible: =gblShowFilters
+        X: =16
+        Y: =376
+        Width: =248
+        Height: =40
+        Items: =Choices(qcf_coaches.qcf_region)
+        ZIndex: =11
+        OnChange: =Set(gblFilterRegion, drpRegion.Selected)
+
+    lblFilterAvailableLabel As label:
+        Visible: =gblShowFilters
+        Text: ="Available for hire only"
+        X: =16
+        Y: =428
+        Width: =180
+        Height: =32
+        Size: =13
+        Color: =gblColTextDark
+        VerticalAlign: =VerticalAlign.Middle
+        ZIndex: =11
+
+    tglAvailableOnly As toggle:
+        Visible: =gblShowFilters
+        X: =220
+        Y: =432
+        Width: =44
+        Height: =24
+        Default: =gblFilterAvailable
+        ZIndex: =11
+        OnCheck: =Set(gblFilterAvailable, true)
+        OnUncheck: =Set(gblFilterAvailable, false)
+
+    btnClearFilters As button:
+        Visible: =gblShowFilters
+        X: =16
+        Y: =480
+        Width: =116
+        Height: =40
+        Text: ="Clear All"
+        Fill: =White
+        Color: =gblColPrimary
+        BorderColor: =gblColPrimary
+        BorderThickness: =2
+        RadiusTopLeft: =6
+        RadiusTopRight: =6
+        RadiusBottomLeft: =6
+        RadiusBottomRight: =6
+        ZIndex: =11
+        OnSelect: =Set(gblFilterSport, Blank());
+                   Set(gblFilterCourse, Blank());
+                   Set(gblFilterRegion, Blank());
+                   Set(gblFilterAvailable, false);
+                   Reset(drpSport);
+                   Reset(drpCourse);
+                   Reset(drpRegion);
+                   Reset(tglAvailableOnly)
+
+    btnApplyFilters As button:
+        Visible: =gblShowFilters
+        X: =148
+        Y: =480
+        Width: =116
+        Height: =40
+        Text: ="Apply"
+        Fill: =gblColPrimary
+        Color: =White
+        RadiusTopLeft: =6
+        RadiusTopRight: =6
+        RadiusBottomLeft: =6
+        RadiusBottomRight: =6
+        ZIndex: =11
+        OnSelect: =Set(gblShowFilters, false)
+
+    # ── RESULT COUNT BAR ─────────────────────────────────────────────
+    lblResultCount As label:
+        X: =If(gblShowFilters, 288, 8)
+        Y: =If(!IsBlank(gblFilterSport) || !IsBlank(gblFilterCourse) || !IsBlank(gblFilterRegion), 192, 152)
+        Width: =Parent.Width - If(gblShowFilters, 296, 16)
+        Height: =28
+        Text: =Text(CountRows(galCoaches.AllItems)) & " coach(es) found"
+        Size: =13
+        Color: =gblColTextMid
+        FontWeight: =FontWeight.Semibold
+
+    # ── COACH GALLERY ─────────────────────────────────────────────────
+    # Each card shows: circular headshot, name, primary sport, location, availability badge
+    galCoaches As gallery:
+        X: =If(gblShowFilters, 288, 0)
+        Y: =If(!IsBlank(gblFilterSport) || !IsBlank(gblFilterCourse) || !IsBlank(gblFilterRegion), 220, 184)
+        Width: =Parent.Width - If(gblShowFilters, 296, 0)
+        Height: =Parent.Height - Y
+        Layout: =Layout.Horizontal
+        WrapCount: =3
+        TemplateSize: =220
+        TemplatePadding: =12
+
+        # ── Gallery Items formula (reactive, named formula from App.OnStart) ──
+        Items: =Filter(
+                    qcf_coaches,
+                    qcf_availableforhire = true || !gblFilterAvailable,
+                    // Text search (name substring)
+                    IsBlank(gblSearchText) ||
+                    (qcf_fullname in gblSearchText),
+                    // Region filter
+                    IsBlank(gblFilterRegion) ||
+                    qcf_region = gblFilterRegion.Value,
+                    // Sport filter via junction (delegation note: pre-collect if >500 coaches)
+                    IsBlank(gblFilterSport) ||
+                    CountRows(
+                        Filter(qcf_coachqualifications,
+                               'Coach (qcf_Coach)'.qcf_coachid = qcf_coachid,
+                               'Course (qcf_Course)'.qcf_sport = gblFilterSport.qcf_sportid)
+                    ) > 0,
+                    // Course filter
+                    IsBlank(gblFilterCourse) ||
+                    CountRows(
+                        Filter(qcf_coachqualifications,
+                               'Coach (qcf_Coach)'.qcf_coachid = qcf_coachid,
+                               'Course (qcf_Course)'.qcf_courseid = gblFilterCourse.qcf_courseid)
+                    ) > 0
+                )
+
+        OnSelect: =Set(gblSelectedCoach, ThisItem);
+                   Navigate(CoachProfileScreen, ScreenTransition.Cover)
+
+        # ── Card background ──────────────────────────────────────────
+        rectCard As rectangle:
+            X: =0
+            Y: =0
+            Width: =Parent.TemplateWidth
+            Height: =Parent.TemplateHeight
+            Fill: =White
+            BorderColor: =RGBA(220, 230, 245, 1)
+            BorderThickness: =1
+            RadiusTopLeft: =12
+            RadiusTopRight: =12
+            RadiusBottomLeft: =12
+            RadiusBottomRight: =12
+
+        # ── Circular headshot ────────────────────────────────────────
+        imgCardPhoto As image:
+            X: =(Parent.TemplateWidth - 80) / 2
+            Y: =16
+            Width: =80
+            Height: =80
+            Image: =ThisItem.qcf_headshot
+            # Circular mask achieved via equal radius = Width/2
+            RadiusTopLeft: =40
+            RadiusTopRight: =40
+            RadiusBottomLeft: =40
+            RadiusBottomRight: =40
+            BorderColor: =gblColPrimary
+            BorderThickness: =2
+            ImagePosition: =ImagePosition.Fill
+
+        # ── Availability badge ───────────────────────────────────────
+        rectAvailBadge As rectangle:
+            Visible: =ThisItem.qcf_availableforhire
+            X: =Parent.TemplateWidth - 36
+            Y: =16
+            Width: =24
+            Height: =24
+            Fill: =gblColSuccess
+            RadiusTopLeft: =12
+            RadiusTopRight: =12
+            RadiusBottomLeft: =12
+            RadiusBottomRight: =12
+
+        lblAvailBadge As label:
+            Visible: =ThisItem.qcf_availableforhire
+            X: =Parent.TemplateWidth - 36
+            Y: =16
+            Width: =24
+            Height: =24
+            Text: ="✓"
+            Color: =White
+            Align: =Align.Center
+            Size: =11
+            FontWeight: =FontWeight.Bold
+
+        # ── Coach name ───────────────────────────────────────────────
+        lblCardName As label:
+            X: =8
+            Y: =104
+            Width: =Parent.TemplateWidth - 16
+            Height: =28
+            Text: =ThisItem.qcf_fullname
+            Align: =Align.Center
+            FontWeight: =FontWeight.Bold
+            Size: =13
+            Color: =gblColTextDark
+            Overflow: =Overflow.Hidden
+
+        # ── Primary sport ────────────────────────────────────────────
+        lblCardSport As label:
+            X: =8
+            Y: =132
+            Width: =Parent.TemplateWidth - 16
+            Height: =22
+            Text: =ThisItem.'Primary Sport (qcf_sport)'.qcf_name
+            Align: =Align.Center
+            Size: =12
+            Color: =gblColPrimary
+            FontWeight: =FontWeight.Semibold
+
+        # ── Location ─────────────────────────────────────────────────
+        lblCardLocation As label:
+            X: =8
+            Y: =156
+            Width: =Parent.TemplateWidth - 16
+            Height: =20
+            Text: ="📍 " & ThisItem.qcf_suburb & ", QLD"
+            Align: =Align.Center
+            Size: =11
+            Color: =gblColTextMid
+            Overflow: =Overflow.Hidden
+
+        # ── Years experience ─────────────────────────────────────────
+        lblCardExp As label:
+            Visible: =ThisItem.qcf_yearsexperience > 0
+            X: =8
+            Y: =178
+            Width: =Parent.TemplateWidth - 16
+            Height: =20
+            Text: =Text(ThisItem.qcf_yearsexperience) & " yrs experience"
+            Align: =Align.Center
+            Size: =11
+            Color: =gblColTextLight
+
+        # ── View Profile button ──────────────────────────────────────
+        btnCardView As button:
+            X: =16
+            Y: =200
+            Width: =Parent.TemplateWidth - 32
+            Height: =34
+            Text: ="View Profile"
+            Fill: =gblColPrimary
+            Color: =White
+            RadiusTopLeft: =6
+            RadiusTopRight: =6
+            RadiusBottomLeft: =6
+            RadiusBottomRight: =6
+            Size: =12
+            OnSelect: =Set(gblSelectedCoach, ThisItem);
+                       Navigate(CoachProfileScreen, ScreenTransition.Cover)
+
+    # ── EMPTY STATE ──────────────────────────────────────────────────
+    lblNoResults As label:
+        Visible: =CountRows(galCoaches.AllItems) = 0
+        X: =0
+        Y: =280
+        Width: =Parent.Width
+        Height: =40
+        Text: ="No coaches match your search. Try adjusting your filters."
+        Align: =Align.Center
+        Size: =14
+        Color: =gblColTextMid

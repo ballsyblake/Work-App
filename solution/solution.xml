@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ImportExportXml version="9.1.0.0" SolutionPackageVersion="9.1" languagecode="1033" generatedBy="CrmLive" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <SolutionManifest>
+    <UniqueName>QldCoachFinder</UniqueName>
+    <LocalizedNames>
+      <LocalizedName description="Queensland Coach Finder" languagecode="1033" />
+    </LocalizedNames>
+    <Descriptions>
+      <Description description="App for sports clubs to search for accredited coaches in Queensland" languagecode="1033" />
+    </Descriptions>
+    <Version>1.0.0.0</Version>
+    <Managed>false</Managed>
+    <Publisher>
+      <UniqueName>QldCoachFinderPublisher</UniqueName>
+      <LocalizedNames>
+        <LocalizedName description="QLD Coach Finder Publisher" languagecode="1033" />
+      </LocalizedNames>
+      <Descriptions>
+        <Description description="Publisher for Queensland Coach Finder solution" languagecode="1033" />
+      </Descriptions>
+      <EMailAddress></EMailAddress>
+      <SupportingWebsiteUrl></SupportingWebsiteUrl>
+      <CustomizationPrefix>qcf</CustomizationPrefix>
+      <CustomizationOptionValuePrefix>10000</CustomizationOptionValuePrefix>
+      <Addresses>
+        <Address>
+          <AddressNumber>1</AddressNumber>
+          <AddressTypeCode>1</AddressTypeCode>
+          <City />
+          <County />
+          <Country />
+          <Fax />
+          <FreightTermsCode xsi:nil="true" />
+          <ImportSequenceNumber>0</ImportSequenceNumber>
+          <Latitude xsi:nil="true" />
+          <Line1 />
+          <Line2 />
+          <Line3 />
+          <Longitude xsi:nil="true" />
+          <Name />
+          <PostalCode />
+          <PrivacyLevel xsi:nil="true" />
+          <ShippingMethodCode xsi:nil="true" />
+          <StateOrProvince />
+          <Telephone1 />
+          <Telephone2 />
+          <Telephone3 />
+          <TimeZoneRuleVersionNumber xsi:nil="true" />
+          <UPSZone />
+          <UTCOffset xsi:nil="true" />
+        </Address>
+      </Addresses>
+    </Publisher>
+    <RootComponents>
+      <!-- Dataverse Tables -->
+      <RootComponent type="1" schemaName="qcf_coach"               behavior="0" />
+      <RootComponent type="1" schemaName="qcf_course"              behavior="0" />
+      <RootComponent type="1" schemaName="qcf_sport"               behavior="0" />
+      <RootComponent type="1" schemaName="qcf_coachqualification"  behavior="0" />
+      <!-- Canvas App -->
+      <RootComponent type="300" schemaName="qcf_coachsearchapp"    behavior="0" />
+      <!-- Security Roles -->
+      <RootComponent type="20"  schemaName="QCF Club User"         behavior="0" />
+      <RootComponent type="20"  schemaName="QCF Coach Administrator" behavior="0" />
+    </RootComponents>
+    <MissingDependencies />
+  </SolutionManifest>
+</ImportExportXml>

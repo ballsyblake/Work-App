@@ -1,0 +1,48 @@
+{
+  "name": "QCF_Queensland_Theme",
+  "version": "1.0",
+  "description": "Queensland government and sport branding palette",
+  "properties": {
+    "palette": {
+      "themePrimary":        "#00539B",
+      "themeLighterAlt":     "#f0f6fc",
+      "themeLighter":        "#c7dcf1",
+      "themeLight":          "#94bee5",
+      "themeTertiary":       "#3d87cb",
+      "themeSecondary":      "#0f68b2",
+      "themeDarkAlt":        "#004b8c",
+      "themeDark":           "#003f76",
+      "themeDarker":         "#002e57",
+      "neutralLighterAlt":   "#f5f9fd",
+      "neutralLighter":      "#f0f4fa",
+      "neutralLight":        "#e8eef5",
+      "neutralQuaternaryAlt":"#dce4ee",
+      "neutralQuaternary":   "#d2dae8",
+      "neutralTertiaryAlt":  "#b5c2d4",
+      "neutralTertiary":     "#8fa3bc",
+      "neutralSecondary":    "#6b8098",
+      "neutralPrimaryAlt":   "#4a6278",
+      "neutralPrimary":      "#323130",
+      "neutralDark":         "#201f1e",
+      "black":               "#000000",
+      "white":               "#ffffff",
+      "accentYellow":        "#FFD100",
+      "accentOrange":        "#FF9800",
+      "successGreen":        "#2E7D32",
+      "warningAmber":        "#E6A200",
+      "dangerRed":           "#C62828"
+    },
+    "typography": {
+      "baseFontFamily": "'Segoe UI', 'Helvetica Neue', Arial, sans-serif",
+      "baseFontSize": "14px",
+      "headingFontWeight": "700",
+      "bodyFontWeight": "400"
+    },
+    "spacing": {
+      "headerHeight": 80,
+      "cardBorderRadius": 12,
+      "inputBorderRadius": 6,
+      "buttonBorderRadius": 8
+    }
+  }
+}

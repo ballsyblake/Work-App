@@ -1,0 +1,37 @@
+{
+  "id": "qcf_coachsearchapp",
+  "name": "Queensland Coach Finder",
+  "description": "Enables sports clubs to search for accredited coaches who have completed courses within Queensland. Each coach profile features a headshot photo and video reel of their coaching delivery.",
+  "allowErrorDialog": false,
+  "appCreationSource": 4,
+  "publisherVersion": "3.24041",
+  "documentLayoutWidth": 1366,
+  "documentLayoutHeight": 768,
+  "documentLayoutOrientation": "landscape",
+  "documentAppType": "CanvasApp",
+  "features": {
+    "namedFormulas": true,
+    "powerfx": true,
+    "reorderFields": true,
+    "delayItemLoading": true
+  },
+  "usedConnectors": [
+    {
+      "name": "shared_commondataservice",
+      "displayName": "Microsoft Dataverse",
+      "iconUri": "https://connectoricons-prod.azureedge.net/releases/v1.0.1640/1.0.1640.3440/commondataservice/icon.png",
+      "isRequired": true
+    }
+  ],
+  "dataSources": [
+    { "name": "qcf_coaches",              "type": "Table", "tableId": "qcf_coach" },
+    { "name": "qcf_courses",              "type": "Table", "tableId": "qcf_course" },
+    { "name": "qcf_sports",               "type": "Table", "tableId": "qcf_sport" },
+    { "name": "qcf_coachqualifications",  "type": "Table", "tableId": "qcf_coachqualification" }
+  ],
+  "screenOrder": [
+    "SplashScreen",
+    "BrowseScreen",
+    "CoachProfileScreen"
+  ]
+}
