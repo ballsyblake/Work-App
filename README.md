@@ -86,57 +86,84 @@ The built-in Power Apps `Video` control plays **direct MP4 / WebM / OGG** links.
 
 ## Deployment Guide
 
+> **Why do I get "manifest file could not be found"?**  
+> Power Platform requires `solution.xml` to be at the **root of the ZIP** — not inside a subfolder. Never import the raw git repo ZIP. Always use the build script below to produce the correct ZIP.
+
 ### Prerequisites
-- Power Platform CLI (`pac`) ≥ 1.32  
-  Install: `npm install -g @microsoft/powerplatform-cli`  
-  Or download from: https://aka.ms/PowerAppsCLI
-- A Power Platform environment with Dataverse enabled
-- System Administrator or System Customizer security role
+- A Power Platform environment with Dataverse enabled (Australia Southeast — crm6.dynamics.com)
+- System Administrator or System Customizer security role in that environment
+- Power Platform CLI (`pac`) only needed for the full solution including canvas app
 
-### Step 1 — Pack the canvas app
+### Quickest path — Schema-only import (no CLI required)
+
+This imports the four Dataverse tables and security roles. You then build the canvas app inside Power Apps Studio.
+
+**macOS / Linux**
 ```bash
-cd CanvasApps/CoachSearchApp_src
-pac canvas pack \
-  --sources . \
-  --msapp ../../build/CoachSearchApp.msapp
+./build.sh
+# produces:  dist/QldCoachFinder.zip
 ```
 
-### Step 2 — Build the solution ZIP
-```bash
-# Place the packed .msapp into the solution folder structure first
-mkdir -p build/CanvasApps
-cp build/CoachSearchApp.msapp build/CanvasApps/qcf_coachsearchapp.msapp
-
-# Pack the solution
-pac solution pack \
-  --zipfile build/QldCoachFinder.zip \
-  --folder solution \
-  --packagetype Unmanaged
+**Windows (PowerShell)**
+```powershell
+.\build.ps1
+# produces:  dist\QldCoachFinder.zip
 ```
 
-### Step 3 — Import into Power Platform
-**Option A — CLI**
+Then in your browser:
+1. Open https://make.powerapps.com
+2. Switch to your environment (top-right corner)
+3. **Solutions → Import solution** → upload `dist/QldCoachFinder.zip`
+4. Click through the import wizard — no connection references to configure
+
+> The ZIP must contain `solution.xml`, `customizations.xml`, and `[Content_Types].xml` at its root. The build scripts create exactly that structure.
+
+---
+
+### Full solution import (schema + canvas app, requires PAC CLI)
+
+Install PAC CLI once:
+```bash
+npm install -g @microsoft/powerplatform-cli   # or download from https://aka.ms/PowerAppsCLI
+```
+
+Then run the same build script — it detects `pac` and automatically:
+1. Packs `CanvasApps/CoachSearchApp_src/` → `qcf_coachsearchapp.msapp`
+2. Assembles a ZIP with the canvas app inside `CanvasApps/`
+3. Outputs `dist/QldCoachFinder_Full.zip`
+
+```bash
+./build.sh          # macOS/Linux
+.\build.ps1         # Windows
+```
+
+Import `dist/QldCoachFinder_Full.zip` via the admin portal or CLI:
 ```bash
 pac auth create --environment https://yourorg.crm6.dynamics.com
-pac solution import --path build/QldCoachFinder.zip --activate-plugins
+pac solution import --path dist/QldCoachFinder_Full.zip --activate-plugins
 ```
 
-**Option B — Power Platform admin portal**
-1. Open https://make.powerapps.com
-2. Select your environment (Australia Southeast — crm6)
-3. Solutions → Import → upload `build/QldCoachFinder.zip`
-4. Follow the import wizard
+---
 
-### Step 4 — Assign security roles
+### After import — connect the canvas app to Dataverse
+
+If you imported the schema-only ZIP, create the canvas app manually:
+1. https://make.powerapps.com → **Create → Blank canvas app** → Tablet layout
+2. **Data** panel → Add `qcf_coaches`, `qcf_courses`, `qcf_sports`, `qcf_coachqualifications`
+3. Use the screen designs and Power Fx formulas in `CanvasApps/CoachSearchApp_src/Src/` as your blueprint
+
+---
+
+### Assign security roles
 | Role | Who gets it |
 |---|---|
 | QCF Club User | All club staff who search for coaches |
 | QCF Coach Administrator | Staff who manage coach profiles and courses |
 
-Assign via: https://make.powerapps.com → Dataverse → Roles
+Assign via: https://make.powerapps.com → Settings → Users + permissions → Security roles
 
-### Step 5 — Load seed data (optional)
-Import the sample data spreadsheet via Dataverse → Import Data:
+### Load seed data (optional)
+Import the sample data via Dataverse → **Import data**:
 - `data/sports_seed.xlsx` — common Queensland sports
 - `data/courses_seed.xlsx` — common accreditation courses
 
