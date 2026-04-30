@@ -1,16 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ImportExportXml version="9.1.0.0" SolutionPackageVersion="9.1" languagecode="1033" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-
-  <!-- ================================================================
-       ENTITIES (DATAVERSE TABLES)
-       Publisher prefix: qcf_
-       Tables: qcf_sport, qcf_course, qcf_coach, qcf_coachqualification
-       ================================================================ -->
+<ImportExportXml version="9.1.0.0" SolutionPackageVersion="9.1" languagecode="1033" generatedBy="CrmLive" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Entities>
 
-    <!-- ──────────────────────────────────────────────────────────────
+    <!-- ================================================================
          TABLE: qcf_sport  (Sport / Discipline lookup)
-         ────────────────────────────────────────────────────────────── -->
+         Dependency order: no dependencies — defined first
+         ================================================================ -->
     <Entity>
       <Name LocalizedName="Sport" OriginalName="Sport">qcf_sport</Name>
       <EntityInfo>
@@ -21,74 +16,40 @@
           <LocalizedCollectionNames>
             <LocalizedCollectionName description="Sports" languagecode="1033" />
           </LocalizedCollectionNames>
-          <Descriptions>
-            <Description description="Sport or discipline type" languagecode="1033" />
-          </Descriptions>
+          <Descriptions />
           <attributes>
-            <attribute PhysicalName="qcf_sportid">
-              <Type>primarykey</Type>
-              <Name>qcf_sportid</Name>
-              <LogicalName>qcf_sportid</LogicalName>
-              <RequiredLevel>systemrequired</RequiredLevel>
-              <DisplayMask>ValidForAdvancedFind|ValidForForm|ValidForGrid</DisplayMask>
-              <IsCustomField>1</IsCustomField>
-              <LocalizedNames>
-                <LocalizedName description="Sport" languagecode="1033" />
-              </LocalizedNames>
-            </attribute>
             <attribute PhysicalName="qcf_name">
               <Type>nvarchar</Type>
               <Name>qcf_name</Name>
               <LogicalName>qcf_name</LogicalName>
               <RequiredLevel>required</RequiredLevel>
-              <MaxLength>200</MaxLength>
-              <DisplayMask>ValidForAdvancedFind|ValidForForm|ValidForGrid</DisplayMask>
+              <MaxLength>100</MaxLength>
               <IsCustomField>1</IsCustomField>
               <LocalizedNames>
                 <LocalizedName description="Sport Name" languagecode="1033" />
               </LocalizedNames>
-            </attribute>
-            <attribute PhysicalName="qcf_iconurl">
-              <Type>nvarchar</Type>
-              <Name>qcf_iconurl</Name>
-              <LogicalName>qcf_iconurl</LogicalName>
-              <RequiredLevel>none</RequiredLevel>
-              <MaxLength>2000</MaxLength>
-              <IsCustomField>1</IsCustomField>
-              <LocalizedNames>
-                <LocalizedName description="Icon URL" languagecode="1033" />
-              </LocalizedNames>
+              <Descriptions />
             </attribute>
           </attributes>
           <PrimaryNameAttribute>qcf_name</PrimaryNameAttribute>
           <EntitySetName>qcf_sports</EntitySetName>
-          <IsBPFEntity>0</IsBPFEntity>
           <IsActivity>0</IsActivity>
           <IsActivityParty>0</IsActivityParty>
           <IsChildEntity>0</IsChildEntity>
           <IsAuditEnabled>0</IsAuditEnabled>
           <IsRetrieveAuditChanges>0</IsRetrieveAuditChanges>
-          <OwnershipType>UserOwned</OwnershipType>
-          <ObjectTypeCode>10001</ObjectTypeCode>
-          <IsQuickCreateEnabled>1</IsQuickCreateEnabled>
+          <OwnershipType>OrganizationOwned</OwnershipType>
+          <IsQuickCreateEnabled>0</IsQuickCreateEnabled>
         </entity>
       </EntityInfo>
+      <FormXml />
       <RibbonDiffXml />
-      <FormXml>
-        <forms type="main">
-          <systemform>
-            <formid>{00000001-0000-0000-0001-000000000001}</formid>
-            <LocalizedNames>
-              <LocalizedName description="Information" languagecode="1033" />
-            </LocalizedNames>
-          </systemform>
-        </forms>
-      </FormXml>
     </Entity>
 
-    <!-- ──────────────────────────────────────────────────────────────
+    <!-- ================================================================
          TABLE: qcf_course  (Accreditation Course)
-         ────────────────────────────────────────────────────────────── -->
+         Depends on: qcf_sport
+         ================================================================ -->
     <Entity>
       <Name LocalizedName="Course" OriginalName="Course">qcf_course</Name>
       <EntityInfo>
@@ -99,76 +60,91 @@
           <LocalizedCollectionNames>
             <LocalizedCollectionName description="Courses" languagecode="1033" />
           </LocalizedCollectionNames>
-          <Descriptions>
-            <Description description="Accreditation course or qualification" languagecode="1033" />
-          </Descriptions>
+          <Descriptions />
           <attributes>
-            <attribute PhysicalName="qcf_courseid">
-              <Type>primarykey</Type>
-              <Name>qcf_courseid</Name>
-              <LogicalName>qcf_courseid</LogicalName>
-              <RequiredLevel>systemrequired</RequiredLevel>
-              <IsCustomField>1</IsCustomField>
-              <LocalizedNames>
-                <LocalizedName description="Course" languagecode="1033" />
-              </LocalizedNames>
-            </attribute>
+
             <attribute PhysicalName="qcf_name">
               <Type>nvarchar</Type>
               <Name>qcf_name</Name>
               <LogicalName>qcf_name</LogicalName>
               <RequiredLevel>required</RequiredLevel>
-              <MaxLength>300</MaxLength>
+              <MaxLength>200</MaxLength>
               <IsCustomField>1</IsCustomField>
               <LocalizedNames>
                 <LocalizedName description="Course Name" languagecode="1033" />
               </LocalizedNames>
+              <Descriptions />
             </attribute>
+
             <attribute PhysicalName="qcf_provider">
               <Type>nvarchar</Type>
               <Name>qcf_provider</Name>
               <LogicalName>qcf_provider</LogicalName>
               <RequiredLevel>required</RequiredLevel>
-              <MaxLength>300</MaxLength>
+              <MaxLength>200</MaxLength>
               <IsCustomField>1</IsCustomField>
               <LocalizedNames>
                 <LocalizedName description="Course Provider" languagecode="1033" />
               </LocalizedNames>
-              <Descriptions>
-                <Description description="Organisation that delivers the course e.g. Sport QLD, Swimming Australia" languagecode="1033" />
-              </Descriptions>
+              <Descriptions />
             </attribute>
-            <!-- Accreditation level: 1=Foundation, 2=Level 1, 3=Level 2, 4=Level 3, 5=Elite -->
+
             <attribute PhysicalName="qcf_accreditationlevel">
               <Type>picklist</Type>
               <Name>qcf_accreditationlevel</Name>
               <LogicalName>qcf_accreditationlevel</LogicalName>
-              <RequiredLevel>required</RequiredLevel>
+              <RequiredLevel>none</RequiredLevel>
               <IsCustomField>1</IsCustomField>
               <LocalizedNames>
                 <LocalizedName description="Accreditation Level" languagecode="1033" />
               </LocalizedNames>
+              <Descriptions />
               <optionset>
+                <OptionSetType>picklist</OptionSetType>
+                <IsGlobal>0</IsGlobal>
+                <IsCustomizable>1</IsCustomizable>
+                <LocalizedNames>
+                  <LocalizedName description="Accreditation Level" languagecode="1033" />
+                </LocalizedNames>
+                <Descriptions />
                 <options>
-                  <option value="100000000"><Labels><Label description="Foundation" languagecode="1033" /></Labels></option>
-                  <option value="100000001"><Labels><Label description="Level 1"    languagecode="1033" /></Labels></option>
-                  <option value="100000002"><Labels><Label description="Level 2"    languagecode="1033" /></Labels></option>
-                  <option value="100000003"><Labels><Label description="Level 3"    languagecode="1033" /></Labels></option>
-                  <option value="100000004"><Labels><Label description="Elite"      languagecode="1033" /></Labels></option>
+                  <option value="100000000">
+                    <Labels><Label description="Foundation" languagecode="1033" /></Labels>
+                    <Descriptions />
+                  </option>
+                  <option value="100000001">
+                    <Labels><Label description="Level 1" languagecode="1033" /></Labels>
+                    <Descriptions />
+                  </option>
+                  <option value="100000002">
+                    <Labels><Label description="Level 2" languagecode="1033" /></Labels>
+                    <Descriptions />
+                  </option>
+                  <option value="100000003">
+                    <Labels><Label description="Level 3" languagecode="1033" /></Labels>
+                    <Descriptions />
+                  </option>
+                  <option value="100000004">
+                    <Labels><Label description="Elite" languagecode="1033" /></Labels>
+                    <Descriptions />
+                  </option>
                 </options>
               </optionset>
             </attribute>
-            <attribute PhysicalName="qcf_sport">
+
+            <attribute PhysicalName="qcf_sportid">
               <Type>lookup</Type>
-              <Name>qcf_sport</Name>
+              <Name>qcf_sportid</Name>
               <LogicalName>qcf_sportid</LogicalName>
               <RequiredLevel>none</RequiredLevel>
               <IsCustomField>1</IsCustomField>
+              <Targets>qcf_sport</Targets>
               <LocalizedNames>
                 <LocalizedName description="Sport" languagecode="1033" />
               </LocalizedNames>
-              <ReferencedEntityName>qcf_sport</ReferencedEntityName>
+              <Descriptions />
             </attribute>
+
             <attribute PhysicalName="qcf_description">
               <Type>memo</Type>
               <Name>qcf_description</Name>
@@ -179,33 +155,43 @@
               <LocalizedNames>
                 <LocalizedName description="Description" languagecode="1033" />
               </LocalizedNames>
+              <Descriptions />
             </attribute>
+
             <attribute PhysicalName="qcf_validitymonths">
               <Type>integer</Type>
               <Name>qcf_validitymonths</Name>
               <LogicalName>qcf_validitymonths</LogicalName>
               <RequiredLevel>none</RequiredLevel>
+              <MinValue>0</MinValue>
+              <MaxValue>120</MaxValue>
               <IsCustomField>1</IsCustomField>
               <LocalizedNames>
                 <LocalizedName description="Validity (Months)" languagecode="1033" />
               </LocalizedNames>
+              <Descriptions />
             </attribute>
+
           </attributes>
           <PrimaryNameAttribute>qcf_name</PrimaryNameAttribute>
           <EntitySetName>qcf_courses</EntitySetName>
-          <IsBPFEntity>0</IsBPFEntity>
           <IsActivity>0</IsActivity>
+          <IsActivityParty>0</IsActivityParty>
+          <IsChildEntity>0</IsChildEntity>
+          <IsAuditEnabled>0</IsAuditEnabled>
+          <IsRetrieveAuditChanges>0</IsRetrieveAuditChanges>
           <OwnershipType>OrganizationOwned</OwnershipType>
-          <ObjectTypeCode>10002</ObjectTypeCode>
-          <IsQuickCreateEnabled>1</IsQuickCreateEnabled>
+          <IsQuickCreateEnabled>0</IsQuickCreateEnabled>
         </entity>
       </EntityInfo>
+      <FormXml />
       <RibbonDiffXml />
     </Entity>
 
-    <!-- ──────────────────────────────────────────────────────────────
+    <!-- ================================================================
          TABLE: qcf_coach  (Coach Profile)
-         ────────────────────────────────────────────────────────────── -->
+         Depends on: qcf_sport
+         ================================================================ -->
     <Entity>
       <Name LocalizedName="Coach" OriginalName="Coach">qcf_coach</Name>
       <EntityInfo>
@@ -216,31 +202,22 @@
           <LocalizedCollectionNames>
             <LocalizedCollectionName description="Coaches" languagecode="1033" />
           </LocalizedCollectionNames>
-          <Descriptions>
-            <Description description="Accredited coach profile" languagecode="1033" />
-          </Descriptions>
+          <Descriptions />
           <attributes>
-            <attribute PhysicalName="qcf_coachid">
-              <Type>primarykey</Type>
-              <Name>qcf_coachid</Name>
-              <LogicalName>qcf_coachid</LogicalName>
-              <RequiredLevel>systemrequired</RequiredLevel>
-              <IsCustomField>1</IsCustomField>
-              <LocalizedNames>
-                <LocalizedName description="Coach" languagecode="1033" />
-              </LocalizedNames>
-            </attribute>
+
             <attribute PhysicalName="qcf_fullname">
               <Type>nvarchar</Type>
               <Name>qcf_fullname</Name>
               <LogicalName>qcf_fullname</LogicalName>
               <RequiredLevel>required</RequiredLevel>
-              <MaxLength>300</MaxLength>
+              <MaxLength>200</MaxLength>
               <IsCustomField>1</IsCustomField>
               <LocalizedNames>
                 <LocalizedName description="Full Name" languagecode="1033" />
               </LocalizedNames>
+              <Descriptions />
             </attribute>
+
             <attribute PhysicalName="qcf_email">
               <Type>nvarchar</Type>
               <Name>qcf_email</Name>
@@ -252,7 +229,9 @@
               <LocalizedNames>
                 <LocalizedName description="Email" languagecode="1033" />
               </LocalizedNames>
+              <Descriptions />
             </attribute>
+
             <attribute PhysicalName="qcf_phone">
               <Type>nvarchar</Type>
               <Name>qcf_phone</Name>
@@ -264,7 +243,9 @@
               <LocalizedNames>
                 <LocalizedName description="Phone" languagecode="1033" />
               </LocalizedNames>
+              <Descriptions />
             </attribute>
+
             <attribute PhysicalName="qcf_suburb">
               <Type>nvarchar</Type>
               <Name>qcf_suburb</Name>
@@ -275,9 +256,10 @@
               <LocalizedNames>
                 <LocalizedName description="Suburb" languagecode="1033" />
               </LocalizedNames>
+              <Descriptions />
             </attribute>
+
             <attribute PhysicalName="qcf_region">
-              <!-- Queensland regions: Brisbane, Gold Coast, Sunshine Coast, Cairns, Townsville, Toowoomba, etc. -->
               <Type>picklist</Type>
               <Name>qcf_region</Name>
               <LogicalName>qcf_region</LogicalName>
@@ -286,22 +268,64 @@
               <LocalizedNames>
                 <LocalizedName description="Queensland Region" languagecode="1033" />
               </LocalizedNames>
+              <Descriptions />
               <optionset>
+                <OptionSetType>picklist</OptionSetType>
+                <IsGlobal>0</IsGlobal>
+                <IsCustomizable>1</IsCustomizable>
+                <LocalizedNames>
+                  <LocalizedName description="Queensland Region" languagecode="1033" />
+                </LocalizedNames>
+                <Descriptions />
                 <options>
-                  <option value="100000000"><Labels><Label description="Brisbane Metro"  languagecode="1033" /></Labels></option>
-                  <option value="100000001"><Labels><Label description="Gold Coast"       languagecode="1033" /></Labels></option>
-                  <option value="100000002"><Labels><Label description="Sunshine Coast"   languagecode="1033" /></Labels></option>
-                  <option value="100000003"><Labels><Label description="Ipswich / Logan"  languagecode="1033" /></Labels></option>
-                  <option value="100000004"><Labels><Label description="Toowoomba"        languagecode="1033" /></Labels></option>
-                  <option value="100000005"><Labels><Label description="Wide Bay Burnett"  languagecode="1033" /></Labels></option>
-                  <option value="100000006"><Labels><Label description="Mackay / Whitsundays" languagecode="1033" /></Labels></option>
-                  <option value="100000007"><Labels><Label description="Central Queensland" languagecode="1033" /></Labels></option>
-                  <option value="100000008"><Labels><Label description="North Queensland"  languagecode="1033" /></Labels></option>
-                  <option value="100000009"><Labels><Label description="Far North Queensland" languagecode="1033" /></Labels></option>
-                  <option value="100000010"><Labels><Label description="South West QLD"    languagecode="1033" /></Labels></option>
+                  <option value="100000000">
+                    <Labels><Label description="Brisbane Metro" languagecode="1033" /></Labels>
+                    <Descriptions />
+                  </option>
+                  <option value="100000001">
+                    <Labels><Label description="Gold Coast" languagecode="1033" /></Labels>
+                    <Descriptions />
+                  </option>
+                  <option value="100000002">
+                    <Labels><Label description="Sunshine Coast" languagecode="1033" /></Labels>
+                    <Descriptions />
+                  </option>
+                  <option value="100000003">
+                    <Labels><Label description="Ipswich / Logan" languagecode="1033" /></Labels>
+                    <Descriptions />
+                  </option>
+                  <option value="100000004">
+                    <Labels><Label description="Toowoomba" languagecode="1033" /></Labels>
+                    <Descriptions />
+                  </option>
+                  <option value="100000005">
+                    <Labels><Label description="Wide Bay Burnett" languagecode="1033" /></Labels>
+                    <Descriptions />
+                  </option>
+                  <option value="100000006">
+                    <Labels><Label description="Mackay / Whitsundays" languagecode="1033" /></Labels>
+                    <Descriptions />
+                  </option>
+                  <option value="100000007">
+                    <Labels><Label description="Central Queensland" languagecode="1033" /></Labels>
+                    <Descriptions />
+                  </option>
+                  <option value="100000008">
+                    <Labels><Label description="North Queensland" languagecode="1033" /></Labels>
+                    <Descriptions />
+                  </option>
+                  <option value="100000009">
+                    <Labels><Label description="Far North Queensland" languagecode="1033" /></Labels>
+                    <Descriptions />
+                  </option>
+                  <option value="100000010">
+                    <Labels><Label description="South West Queensland" languagecode="1033" /></Labels>
+                    <Descriptions />
+                  </option>
                 </options>
               </optionset>
             </attribute>
+
             <attribute PhysicalName="qcf_currentclub">
               <Type>nvarchar</Type>
               <Name>qcf_currentclub</Name>
@@ -312,18 +336,22 @@
               <LocalizedNames>
                 <LocalizedName description="Current Club / Organisation" languagecode="1033" />
               </LocalizedNames>
+              <Descriptions />
             </attribute>
-            <attribute PhysicalName="qcf_primarysport">
+
+            <attribute PhysicalName="qcf_primarysportid">
               <Type>lookup</Type>
-              <Name>qcf_primarysport</Name>
+              <Name>qcf_primarysportid</Name>
               <LogicalName>qcf_primarysportid</LogicalName>
               <RequiredLevel>none</RequiredLevel>
               <IsCustomField>1</IsCustomField>
+              <Targets>qcf_sport</Targets>
               <LocalizedNames>
                 <LocalizedName description="Primary Sport" languagecode="1033" />
               </LocalizedNames>
-              <ReferencedEntityName>qcf_sport</ReferencedEntityName>
+              <Descriptions />
             </attribute>
+
             <attribute PhysicalName="qcf_bio">
               <Type>memo</Type>
               <Name>qcf_bio</Name>
@@ -334,8 +362,9 @@
               <LocalizedNames>
                 <LocalizedName description="Biography" languagecode="1033" />
               </LocalizedNames>
+              <Descriptions />
             </attribute>
-            <!-- Headshot stored as an image column (Dataverse native image) -->
+
             <attribute PhysicalName="qcf_headshot">
               <Type>image</Type>
               <Name>qcf_headshot</Name>
@@ -346,8 +375,9 @@
               <LocalizedNames>
                 <LocalizedName description="Headshot Photo" languagecode="1033" />
               </LocalizedNames>
+              <Descriptions />
             </attribute>
-            <!-- Video reel: stored as URL (SharePoint / Azure Blob / YouTube unlisted link) -->
+
             <attribute PhysicalName="qcf_videourl">
               <Type>nvarchar</Type>
               <Name>qcf_videourl</Name>
@@ -359,8 +389,9 @@
               <LocalizedNames>
                 <LocalizedName description="Video Reel URL" languagecode="1033" />
               </LocalizedNames>
+              <Descriptions />
             </attribute>
-            <!-- SharePoint document library link for the actual video file -->
+
             <attribute PhysicalName="qcf_videosharepointurl">
               <Type>nvarchar</Type>
               <Name>qcf_videosharepointurl</Name>
@@ -372,34 +403,44 @@
               <LocalizedNames>
                 <LocalizedName description="Video File (SharePoint)" languagecode="1033" />
               </LocalizedNames>
+              <Descriptions />
             </attribute>
+
             <attribute PhysicalName="qcf_yearsexperience">
               <Type>integer</Type>
               <Name>qcf_yearsexperience</Name>
               <LogicalName>qcf_yearsexperience</LogicalName>
               <RequiredLevel>none</RequiredLevel>
+              <MinValue>0</MinValue>
+              <MaxValue>80</MaxValue>
               <IsCustomField>1</IsCustomField>
               <LocalizedNames>
                 <LocalizedName description="Years of Experience" languagecode="1033" />
               </LocalizedNames>
+              <Descriptions />
             </attribute>
+
             <attribute PhysicalName="qcf_availableforhire">
               <Type>bool</Type>
               <Name>qcf_availableforhire</Name>
               <LogicalName>qcf_availableforhire</LogicalName>
               <RequiredLevel>none</RequiredLevel>
               <IsCustomField>1</IsCustomField>
+              <DefaultValue>1</DefaultValue>
+              <TrueOption>
+                <Value>1</Value>
+                <Labels><Label description="Yes" languagecode="1033" /></Labels>
+              </TrueOption>
+              <FalseOption>
+                <Value>0</Value>
+                <Labels><Label description="No" languagecode="1033" /></Labels>
+              </FalseOption>
               <LocalizedNames>
                 <LocalizedName description="Available for Hire" languagecode="1033" />
               </LocalizedNames>
-              <FalseOption>
-                <Labels><Label description="No" languagecode="1033" /></Labels>
-              </FalseOption>
-              <TrueOption>
-                <Labels><Label description="Yes" languagecode="1033" /></Labels>
-              </TrueOption>
-              <DefaultValue>1</DefaultValue>
+              <Descriptions />
             </attribute>
+
             <attribute PhysicalName="qcf_wwccnumber">
               <Type>nvarchar</Type>
               <Name>qcf_wwccnumber</Name>
@@ -410,18 +451,22 @@
               <LocalizedNames>
                 <LocalizedName description="Working With Children Check Number" languagecode="1033" />
               </LocalizedNames>
+              <Descriptions />
             </attribute>
+
             <attribute PhysicalName="qcf_wwccexpiry">
               <Type>datetime</Type>
               <Name>qcf_wwccexpiry</Name>
               <LogicalName>qcf_wwccexpiry</LogicalName>
               <RequiredLevel>none</RequiredLevel>
-              <IsCustomField>1</IsCustomField>
               <Format>DateOnly</Format>
+              <IsCustomField>1</IsCustomField>
               <LocalizedNames>
                 <LocalizedName description="WWCC Expiry Date" languagecode="1033" />
               </LocalizedNames>
+              <Descriptions />
             </attribute>
+
             <attribute PhysicalName="qcf_linkedinurl">
               <Type>nvarchar</Type>
               <Name>qcf_linkedinurl</Name>
@@ -433,23 +478,29 @@
               <LocalizedNames>
                 <LocalizedName description="LinkedIn Profile URL" languagecode="1033" />
               </LocalizedNames>
+              <Descriptions />
             </attribute>
+
           </attributes>
           <PrimaryNameAttribute>qcf_fullname</PrimaryNameAttribute>
           <EntitySetName>qcf_coaches</EntitySetName>
-          <IsBPFEntity>0</IsBPFEntity>
           <IsActivity>0</IsActivity>
+          <IsActivityParty>0</IsActivityParty>
+          <IsChildEntity>0</IsChildEntity>
+          <IsAuditEnabled>0</IsAuditEnabled>
+          <IsRetrieveAuditChanges>0</IsRetrieveAuditChanges>
           <OwnershipType>UserOwned</OwnershipType>
-          <ObjectTypeCode>10003</ObjectTypeCode>
-          <IsQuickCreateEnabled>1</IsQuickCreateEnabled>
+          <IsQuickCreateEnabled>0</IsQuickCreateEnabled>
         </entity>
       </EntityInfo>
+      <FormXml />
       <RibbonDiffXml />
     </Entity>
 
-    <!-- ──────────────────────────────────────────────────────────────
-         TABLE: qcf_coachqualification  (Coach ↔ Course junction)
-         ────────────────────────────────────────────────────────────── -->
+    <!-- ================================================================
+         TABLE: qcf_coachqualification  (Coach x Course junction)
+         Depends on: qcf_coach, qcf_course
+         ================================================================ -->
     <Entity>
       <Name LocalizedName="Coach Qualification" OriginalName="CoachQualification">qcf_coachqualification</Name>
       <EntityInfo>
@@ -460,20 +511,9 @@
           <LocalizedCollectionNames>
             <LocalizedCollectionName description="Coach Qualifications" languagecode="1033" />
           </LocalizedCollectionNames>
-          <Descriptions>
-            <Description description="Records a course completed by a coach" languagecode="1033" />
-          </Descriptions>
+          <Descriptions />
           <attributes>
-            <attribute PhysicalName="qcf_coachqualificationid">
-              <Type>primarykey</Type>
-              <Name>qcf_coachqualificationid</Name>
-              <LogicalName>qcf_coachqualificationid</LogicalName>
-              <RequiredLevel>systemrequired</RequiredLevel>
-              <IsCustomField>1</IsCustomField>
-              <LocalizedNames>
-                <LocalizedName description="Coach Qualification" languagecode="1033" />
-              </LocalizedNames>
-            </attribute>
+
             <attribute PhysicalName="qcf_name">
               <Type>nvarchar</Type>
               <Name>qcf_name</Name>
@@ -484,51 +524,61 @@
               <LocalizedNames>
                 <LocalizedName description="Name" languagecode="1033" />
               </LocalizedNames>
+              <Descriptions />
             </attribute>
-            <attribute PhysicalName="qcf_coach">
+
+            <attribute PhysicalName="qcf_coachid">
               <Type>lookup</Type>
-              <Name>qcf_coach</Name>
+              <Name>qcf_coachid</Name>
               <LogicalName>qcf_coachid</LogicalName>
               <RequiredLevel>required</RequiredLevel>
               <IsCustomField>1</IsCustomField>
+              <Targets>qcf_coach</Targets>
               <LocalizedNames>
                 <LocalizedName description="Coach" languagecode="1033" />
               </LocalizedNames>
-              <ReferencedEntityName>qcf_coach</ReferencedEntityName>
+              <Descriptions />
             </attribute>
-            <attribute PhysicalName="qcf_course">
+
+            <attribute PhysicalName="qcf_courseid">
               <Type>lookup</Type>
-              <Name>qcf_course</Name>
+              <Name>qcf_courseid</Name>
               <LogicalName>qcf_courseid</LogicalName>
               <RequiredLevel>required</RequiredLevel>
               <IsCustomField>1</IsCustomField>
+              <Targets>qcf_course</Targets>
               <LocalizedNames>
                 <LocalizedName description="Course" languagecode="1033" />
               </LocalizedNames>
-              <ReferencedEntityName>qcf_course</ReferencedEntityName>
+              <Descriptions />
             </attribute>
+
             <attribute PhysicalName="qcf_completiondate">
               <Type>datetime</Type>
               <Name>qcf_completiondate</Name>
               <LogicalName>qcf_completiondate</LogicalName>
               <RequiredLevel>required</RequiredLevel>
-              <IsCustomField>1</IsCustomField>
               <Format>DateOnly</Format>
+              <IsCustomField>1</IsCustomField>
               <LocalizedNames>
                 <LocalizedName description="Completion Date" languagecode="1033" />
               </LocalizedNames>
+              <Descriptions />
             </attribute>
+
             <attribute PhysicalName="qcf_expirydate">
               <Type>datetime</Type>
               <Name>qcf_expirydate</Name>
               <LogicalName>qcf_expirydate</LogicalName>
               <RequiredLevel>none</RequiredLevel>
-              <IsCustomField>1</IsCustomField>
               <Format>DateOnly</Format>
+              <IsCustomField>1</IsCustomField>
               <LocalizedNames>
                 <LocalizedName description="Expiry Date" languagecode="1033" />
               </LocalizedNames>
+              <Descriptions />
             </attribute>
+
             <attribute PhysicalName="qcf_certificatenumber">
               <Type>nvarchar</Type>
               <Name>qcf_certificatenumber</Name>
@@ -539,8 +589,9 @@
               <LocalizedNames>
                 <LocalizedName description="Certificate Number" languagecode="1033" />
               </LocalizedNames>
+              <Descriptions />
             </attribute>
-            <!-- Status of this qualification -->
+
             <attribute PhysicalName="qcf_status">
               <Type>picklist</Type>
               <Name>qcf_status</Name>
@@ -550,61 +601,58 @@
               <LocalizedNames>
                 <LocalizedName description="Status" languagecode="1033" />
               </LocalizedNames>
+              <Descriptions />
               <optionset>
+                <OptionSetType>picklist</OptionSetType>
+                <IsGlobal>0</IsGlobal>
+                <IsCustomizable>1</IsCustomizable>
+                <LocalizedNames>
+                  <LocalizedName description="Qualification Status" languagecode="1033" />
+                </LocalizedNames>
+                <Descriptions />
                 <options>
-                  <option value="100000000"><Labels><Label description="Current"  languagecode="1033" /></Labels></option>
-                  <option value="100000001"><Labels><Label description="Expired"  languagecode="1033" /></Labels></option>
-                  <option value="100000002"><Labels><Label description="Pending Renewal" languagecode="1033" /></Labels></option>
+                  <option value="100000000">
+                    <Labels><Label description="Current" languagecode="1033" /></Labels>
+                    <Descriptions />
+                  </option>
+                  <option value="100000001">
+                    <Labels><Label description="Expired" languagecode="1033" /></Labels>
+                    <Descriptions />
+                  </option>
+                  <option value="100000002">
+                    <Labels><Label description="Pending Renewal" languagecode="1033" /></Labels>
+                    <Descriptions />
+                  </option>
                 </options>
               </optionset>
             </attribute>
+
           </attributes>
           <PrimaryNameAttribute>qcf_name</PrimaryNameAttribute>
           <EntitySetName>qcf_coachqualifications</EntitySetName>
-          <IsBPFEntity>0</IsBPFEntity>
           <IsActivity>0</IsActivity>
+          <IsActivityParty>0</IsActivityParty>
+          <IsChildEntity>0</IsChildEntity>
+          <IsAuditEnabled>0</IsAuditEnabled>
+          <IsRetrieveAuditChanges>0</IsRetrieveAuditChanges>
           <OwnershipType>UserOwned</OwnershipType>
-          <ObjectTypeCode>10004</ObjectTypeCode>
+          <IsQuickCreateEnabled>0</IsQuickCreateEnabled>
         </entity>
       </EntityInfo>
+      <FormXml />
       <RibbonDiffXml />
     </Entity>
 
   </Entities>
 
-  <!-- ================================================================
-       SECURITY ROLES
-       ================================================================ -->
-  <Roles>
-    <Role name="QCF Club User" id="{A0000001-0000-0000-0000-000000000001}"
-          description="Read-only access for club staff to search and view coach profiles">
-      <RolePrivileges>
-        <!-- Read Coaches -->
-        <RolePrivilege name="prvReadqcf_coach"              level="Global" />
-        <RolePrivilege name="prvReadqcf_course"             level="Global" />
-        <RolePrivilege name="prvReadqcf_sport"              level="Global" />
-        <RolePrivilege name="prvReadqcf_coachqualification" level="Global" />
-      </RolePrivileges>
-    </Role>
-    <Role name="QCF Coach Administrator" id="{A0000001-0000-0000-0000-000000000002}"
-          description="Full access to manage coach profiles and courses">
-      <RolePrivileges>
-        <RolePrivilege name="prvCreateqcf_coach"            level="Global" />
-        <RolePrivilege name="prvReadqcf_coach"              level="Global" />
-        <RolePrivilege name="prvWriteqcf_coach"             level="Global" />
-        <RolePrivilege name="prvDeleteqcf_coach"            level="Global" />
-        <RolePrivilege name="prvCreateqcf_course"           level="Global" />
-        <RolePrivilege name="prvReadqcf_course"             level="Global" />
-        <RolePrivilege name="prvWriteqcf_course"            level="Global" />
-        <RolePrivilege name="prvCreateqcf_sport"            level="Global" />
-        <RolePrivilege name="prvReadqcf_sport"              level="Global" />
-        <RolePrivilege name="prvWriteqcf_sport"             level="Global" />
-        <RolePrivilege name="prvCreateqcf_coachqualification" level="Global" />
-        <RolePrivilege name="prvReadqcf_coachqualification"   level="Global" />
-        <RolePrivilege name="prvWriteqcf_coachqualification"  level="Global" />
-        <RolePrivilege name="prvDeleteqcf_coachqualification" level="Global" />
-      </RolePrivileges>
-    </Role>
-  </Roles>
+  <!-- Required wrapper sections — empty for this schema-only package -->
+  <Roles />
+  <Workflows />
+  <FieldSecurityProfiles />
+  <Templates />
+  <EntityMaps />
+  <EntityRelationships />
+  <OrganizationSettings />
+  <optionsets />
 
 </ImportExportXml>
