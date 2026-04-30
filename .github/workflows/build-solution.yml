@@ -3,10 +3,6 @@ name: Build Power Platform Solution ZIP
 on:
   push:
     branches: [ "claude/coach-search-app-mQ0Lv", "main" ]
-    paths:
-      - "solution.xml"
-      - "customizations.xml"
-      - "[Content_Types].xml"
   workflow_dispatch:   # allows manual trigger from the Actions tab
 
 permissions:
