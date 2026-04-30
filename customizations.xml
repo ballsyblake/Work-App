@@ -24,6 +24,7 @@
               <LogicalName>qcf_name</LogicalName>
               <RequiredLevel>required</RequiredLevel>
               <MaxLength>100</MaxLength>
+              <DisplayMask>ValidForAdvancedFind|ValidForForm|ValidForGrid</DisplayMask>
               <IsCustomField>1</IsCustomField>
               <LocalizedNames>
                 <LocalizedName description="Sport Name" languagecode="1033" />
@@ -32,6 +33,7 @@
             </attribute>
           </attributes>
           <PrimaryNameAttribute>qcf_name</PrimaryNameAttribute>
+          <PrimaryImageAttribute />
           <EntitySetName>qcf_sports</EntitySetName>
           <IsActivity>0</IsActivity>
           <IsActivityParty>0</IsActivityParty>
@@ -69,6 +71,7 @@
               <LogicalName>qcf_name</LogicalName>
               <RequiredLevel>required</RequiredLevel>
               <MaxLength>200</MaxLength>
+              <DisplayMask>ValidForAdvancedFind|ValidForForm|ValidForGrid</DisplayMask>
               <IsCustomField>1</IsCustomField>
               <LocalizedNames>
                 <LocalizedName description="Course Name" languagecode="1033" />
@@ -174,6 +177,7 @@
 
           </attributes>
           <PrimaryNameAttribute>qcf_name</PrimaryNameAttribute>
+          <PrimaryImageAttribute />
           <EntitySetName>qcf_courses</EntitySetName>
           <IsActivity>0</IsActivity>
           <IsActivityParty>0</IsActivityParty>
@@ -211,6 +215,7 @@
               <LogicalName>qcf_fullname</LogicalName>
               <RequiredLevel>required</RequiredLevel>
               <MaxLength>200</MaxLength>
+              <DisplayMask>ValidForAdvancedFind|ValidForForm|ValidForGrid</DisplayMask>
               <IsCustomField>1</IsCustomField>
               <LocalizedNames>
                 <LocalizedName description="Full Name" languagecode="1033" />
@@ -483,6 +488,7 @@
 
           </attributes>
           <PrimaryNameAttribute>qcf_fullname</PrimaryNameAttribute>
+          <PrimaryImageAttribute />
           <EntitySetName>qcf_coaches</EntitySetName>
           <IsActivity>0</IsActivity>
           <IsActivityParty>0</IsActivityParty>
@@ -520,6 +526,7 @@
               <LogicalName>qcf_name</LogicalName>
               <RequiredLevel>required</RequiredLevel>
               <MaxLength>300</MaxLength>
+              <DisplayMask>ValidForAdvancedFind|ValidForForm|ValidForGrid</DisplayMask>
               <IsCustomField>1</IsCustomField>
               <LocalizedNames>
                 <LocalizedName description="Name" languagecode="1033" />
@@ -629,6 +636,7 @@
 
           </attributes>
           <PrimaryNameAttribute>qcf_name</PrimaryNameAttribute>
+          <PrimaryImageAttribute />
           <EntitySetName>qcf_coachqualifications</EntitySetName>
           <IsActivity>0</IsActivity>
           <IsActivityParty>0</IsActivityParty>
