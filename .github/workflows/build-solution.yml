@@ -1,0 +1,68 @@
+name: Build Power Platform Solution ZIP
+
+on:
+  push:
+    branches: [ "claude/coach-search-app-mQ0Lv", "main" ]
+    paths:
+      - "solution.xml"
+      - "customizations.xml"
+      - "[Content_Types].xml"
+  workflow_dispatch:   # allows manual trigger from the Actions tab
+
+permissions:
+  contents: write      # needed to create/update releases
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build solution ZIP with correct root structure
+        run: |
+          mkdir -p dist
+
+          # -j (junk paths) puts files directly at ZIP root — no subfolder
+          zip -j dist/QldCoachFinder.zip \
+            solution.xml \
+            customizations.xml \
+            '[Content_Types].xml'
+
+          echo ""
+          echo "=== ZIP contents (must show files at root, no subfolder) ==="
+          unzip -l dist/QldCoachFinder.zip
+
+      - name: Delete previous release + tag (if they exist)
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release delete v1.0.0 --yes 2>/dev/null || true
+          git push --delete origin refs/tags/v1.0.0 2>/dev/null || true
+
+      - name: Publish GitHub Release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create v1.0.0 dist/QldCoachFinder.zip \
+            --title "Queensland Coach Finder v1.0.0" \
+            --notes "## How to import into Power Platform
+
+          1. Click **\`QldCoachFinder.zip\`** in the Assets list below to download it
+          2. Go to https://make.powerapps.com and select your environment
+          3. **Solutions → Import solution** → upload \`QldCoachFinder.zip\`
+          4. Click through the wizard — no connection references to configure
+
+          > Do NOT use the GitHub *Download ZIP* button on the repo page.
+          > That wraps everything in a subfolder and will always fail import.
+
+          ## What this imports
+          - **qcf\_coach** — coach profiles with headshot image, video URL, bio, WWCC
+          - **qcf\_course** — accreditation courses (provider, level, sport)
+          - **qcf\_sport** — sport/discipline lookup
+          - **qcf\_coachqualification** — coach ↔ course junction with completion & expiry dates
+          - Two security roles: *QCF Club User* (read-only) and *QCF Coach Administrator*
+
+          After importing, build the canvas app in Power Apps Studio using the
+          screen designs in \`CanvasApps/CoachSearchApp_src/Src/\` as your blueprint."

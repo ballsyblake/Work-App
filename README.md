@@ -4,14 +4,30 @@ A Microsoft Power Apps canvas app that lets sports clubs search for accredited c
 
 ---
 
+## Importing into Power Platform
+
+> **Do NOT use the GitHub "Download ZIP" button.** GitHub always wraps the files in a subfolder, so `solution.xml` is never at the root of the ZIP and Power Platform will reject it with _"The manifest file could not be found"_.
+
+**The correct way to get the importable ZIP:**
+
+1. Go to the **Releases** tab of this repository
+2. Under **Assets**, download `QldCoachFinder.zip`
+3. In https://make.powerapps.com → **Solutions → Import solution** → upload `QldCoachFinder.zip`
+
+The release ZIP is automatically built by the GitHub Actions workflow (`.github/workflows/build-solution.yml`) and has `solution.xml` at its root, exactly as Power Platform requires.
+
+---
+
 ## Contents
 
 ```
 .
-├── solution/
-│   ├── solution.xml            Solution manifest (publisher, version, root components)
-│   ├── customizations.xml      Dataverse table definitions, option sets, security roles
-│   └── [Content_Types].xml     OPC content types
+├── .github/workflows/
+│   └── build-solution.yml      Builds & publishes QldCoachFinder.zip as a Release asset
+├── solution.xml                Solution manifest (publisher, version, root components)
+├── customizations.xml          Dataverse table definitions, option sets, security roles
+├── [Content_Types].xml         OPC content types
+├── build.sh / build.ps1        Local build scripts (optional, requires no CLI for schema ZIP)
 │
 └── CanvasApps/
     └── CoachSearchApp_src/
